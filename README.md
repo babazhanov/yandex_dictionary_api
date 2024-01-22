@@ -1,0 +1,2 @@
+# Yandex Dictionary Api
+
