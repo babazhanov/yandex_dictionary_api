@@ -1,7 +1,13 @@
 name: yandex_dictionary_api
 description: Package to access the Yandex.Dictionary API over HTTP.
 version: 1.0.0
-publish_to: none
+publish_to: tguzel.dev
+homepage: https://github.com/tyypgzl/yandex_dictionary_api
+issue_tracker: https://github.com/tyypgzl/yandex_dictionary_api/issues
+topics:
+  - api
+  - yandex
+  - dictionary
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
