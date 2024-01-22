@@ -3,11 +3,8 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:http/http.dart' as http;
+import 'package:yandex_dictionary_api/src/constants.dart';
 import 'package:yandex_dictionary_api/src/types.dart';
-
-const _baseUrl = 'dictionary.yandex.net';
-const _getLangUrl = '/api/v1/dicservice.json/getLangs';
-const _lookupUrl = '/api/v1/dicservice.json/lookup';
 
 /// {@template yandex_dictionary_exception}
 /// An [YandexDictionaryException] is thrown if an error occurs
@@ -22,7 +19,7 @@ sealed class YandexDictionaryException implements Exception {
 
   @override
   String toString() {
-    return '$runtimeType - $error';
+    return 'YandexDictionaryException - $error';
   }
 }
 
@@ -92,7 +89,7 @@ final class YandexDictionaryClient {
   /// Returns a list of translation directions supported by the service.
   Future<List<String>> getLangs(String apiKey) async {
     try {
-      final uri = Uri.https(_baseUrl, _getLangUrl, {
+      final uri = Uri.https(kBaseUrl, kGetLangUrl, {
         'key': apiKey,
       });
 
@@ -137,7 +134,7 @@ final class YandexDictionaryClient {
     String apiKey,
   ) async {
     try {
-      final uri = Uri.https(_baseUrl, _lookupUrl, {
+      final uri = Uri.https(kBaseUrl, kLookupUrl, {
         'key': apiKey,
         'lang': request.lang,
         'text': request.text,
