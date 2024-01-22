@@ -5,12 +5,12 @@ Future<void> main() async {
     final yandexDictionaryKey = YandexDictionaryKey(apiKey: '');
     final yandexDictionaryApi = YandexDictionaryApi(key: yandexDictionaryKey);
 
-    final langs = await yandexDictionaryApi.getLangs();
-    print(langs);
+    final getLangsResponse = await yandexDictionaryApi.getLangs();
+    print(getLangsResponse);
 
     final lookupRequest = YandexLookupRequest(lang: 'en-tr', text: 'hello');
-    final resuult = await yandexDictionaryApi.lookup(lookupRequest);
-    print(resuult.def?.first);
+    final lookupResponse = await yandexDictionaryApi.lookup(lookupRequest);
+    print(lookupResponse.def?.first);
   } on YandexDictionaryException catch (error, stackTrace) {
     print(error);
     print(stackTrace);

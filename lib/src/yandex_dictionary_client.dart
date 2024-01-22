@@ -69,7 +69,7 @@ final class YandexDictionaryLangNotSupportedException
 }
 
 /// {@template yandex_dictionary_unknown_exception}
-/// Thrown when unkw
+/// Thrown when unknown error cases.
 /// {@endtemplate}
 final class YandexDictionaryUnknownException extends YandexDictionaryException {
   /// {@macro yandex_dictionary_unknown_exception}
