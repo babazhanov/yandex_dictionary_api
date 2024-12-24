@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:http/http.dart' as http;
 import 'package:yandex_dictionary_api/src/constants.dart';
@@ -93,18 +92,18 @@ final class YandexDictionaryClient {
         'key': apiKey,
       });
 
-      final repsonse = await _client.get(uri);
+      final response = await _client.get(uri);
 
-      if (repsonse.statusCode == HttpStatus.unauthorized) {
+      if (response.statusCode == HttpStatus.unauthorized) {
         throw const YandexDictionaryInvalidKeyException(
           'Invalid API key.',
         );
-      } else if (repsonse.statusCode == HttpStatus.paymentRequired) {
+      } else if (response.statusCode == HttpStatus.paymentRequired) {
         throw const YandexDictionaryBlockedKeyException(
           'This API key has been blocked.',
         );
-      } else if (repsonse.statusCode == HttpStatus.ok) {
-        final json = await Isolate.run(() => jsonDecode(repsonse.body));
+      } else if (response.statusCode == HttpStatus.ok) {
+        final json = await jsonDecode(response.body);
         if (json is List<dynamic>) {
           return json.cast<String>();
         } else {
@@ -114,7 +113,7 @@ final class YandexDictionaryClient {
         }
       } else {
         throw YandexDictionaryUnknownException(
-          'Status code Error: ${repsonse.statusCode}',
+          'Status code Error: ${response.statusCode}',
         );
       }
     } on YandexDictionaryException catch (_) {
@@ -140,30 +139,30 @@ final class YandexDictionaryClient {
         'text': request.text,
       });
 
-      final repsonse = await _client.get(uri);
+      final response = await _client.get(uri);
 
-      if (repsonse.statusCode == HttpStatus.unauthorized) {
+      if (response.statusCode == HttpStatus.unauthorized) {
         throw const YandexDictionaryInvalidKeyException(
           'Invalid API key.',
         );
-      } else if (repsonse.statusCode == HttpStatus.paymentRequired) {
+      } else if (response.statusCode == HttpStatus.paymentRequired) {
         throw const YandexDictionaryBlockedKeyException(
           'This API key has been blocked.',
         );
-      } else if (repsonse.statusCode == HttpStatus.forbidden) {
+      } else if (response.statusCode == HttpStatus.forbidden) {
         throw const YandexDictionaryDailyRequestLimitException(
           'Exceeded the daily limit on the number of requests.',
         );
-      } else if (repsonse.statusCode == HttpStatus.requestEntityTooLarge) {
+      } else if (response.statusCode == HttpStatus.requestEntityTooLarge) {
         throw const YandexDictionaryTextTooLongException(
           'The text size exceeds the maximum.',
         );
-      } else if (repsonse.statusCode == HttpStatus.notImplemented) {
+      } else if (response.statusCode == HttpStatus.notImplemented) {
         throw const YandexDictionaryLangNotSupportedException(
           'The specified translation direction is not supported.',
         );
-      } else if (repsonse.statusCode == HttpStatus.ok) {
-        final json = await Isolate.run(() => jsonDecode(repsonse.body));
+      } else if (response.statusCode == HttpStatus.ok) {
+        final json = await jsonDecode(response.body);
         if (json is Map<String, dynamic>) {
           return YandexLookupResponse.fromJson(json);
         } else {
@@ -173,7 +172,7 @@ final class YandexDictionaryClient {
         }
       } else {
         throw YandexDictionaryUnknownException(
-          'Status code Error: ${repsonse.statusCode}',
+          'Status code Error: ${response.statusCode}',
         );
       }
     } on YandexDictionaryException catch (_) {
